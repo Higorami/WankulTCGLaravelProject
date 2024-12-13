@@ -1,0 +1,11 @@
+mysql -h localhost -u root -p
+
+#### mysql >
+
+CREATE USER 'wankul_user'@'localhost' IDENTIFIED BY 'wankul_password';
+CREATE DATABASE wankul_db_php;
+GRANT ALL PRIVILEGES ON wankul_db_php.* TO 'wankul_user'@'localhost';
+
+
+# mysql -h localhost -u wankul_user -p
+    # wankul_password
