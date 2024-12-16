@@ -15,6 +15,11 @@ class Deck extends Model
     public $incrementing = true;
 
     // Définir les relations, si nécessaire, par exemple, avec des cartes (via LIGNE_DECK)
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
+    }
+
     public function cards()
     {
         return $this->belongsToMany(Card::class, 'ligne_deck', 'deck_id', 'card_id')

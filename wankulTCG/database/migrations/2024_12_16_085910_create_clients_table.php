@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('login');
             $table->string('password');
             $table->string('email')->unique();  // L'email doit être unique
+            $table->decimal('money', 8, 2);
             $table->timestamps();  // Création des colonnes created_at et updated_at
         });
     }
