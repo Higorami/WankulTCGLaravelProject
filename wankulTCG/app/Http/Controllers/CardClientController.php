@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Card_client;
 use App\Models\Client;
+use App\Models\Card;
 use App\Models\Extension;
 use Illuminate\Http\Request;
 
@@ -72,7 +73,47 @@ class CardClientController extends Controller
         $extensions = Extension::all();
 
         // retourner la vue avec les données
-        return view('booster-opening', ['client' => $client, 'extensions' => $extensions]);
+        return view('booster-list', ['client' => $client, 'extensions' => $extensions]);
+    }
+
+    // Ouvrir un booster
+    public function openBooster($idClient, $idExtension)
+    {
+        // récupérer les cartes du client appartenant à cette extension
+        $cardsClient = Card_client::where('client_id', $idClient)->whereHas('card', function ($query) use ($idExtension) {
+            $query->where('extension_id', $idExtension);
+        })->get();
+
+        // récupérer les cartes du booster
+        $cardsCommunes = Card::where('extension_id', $idExtension)->where('rarete_id', 1)->get();
+        $cardsNonCommunes = Card::where('extension_id', $idExtension)->where('rarete_id', '!=', 1)->get();
+
+        // tirage de 5 cartes communes et 1 carte non commune
+        $cards = $cardsCommunes->random(5)->merge($cardsNonCommunes->random(1));
+
+        // ajouter les cartes au client ou les vendre si le client les possède déjà en 3 exemplaires
+        foreach ($cards as $card) {
+            $cardClient = $cardsClient->where('card_id', $card->id)->first();
+            if ($cardClient) {
+                if ($cardClient->quantity < 3) {
+                    $cardClient->quantity++;
+                    $cardClient->save();
+                } else {
+                    // vendre la carte
+                    $client = Client::find($idClient);
+                    $client->money += $card->price;
+                    $client->save();
+                }
+            } else {
+                $cardClient = new Card_client();
+                $cardClient->card_id = $card->id;
+                $cardClient->client_id = $idClient;
+                $cardClient->quantity = 1;
+                $cardClient->save();
+            }
+        }
+
+        return view('booster-opening', ['cards' => $cards]);
     }
 
 }
