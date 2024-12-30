@@ -116,4 +116,30 @@ class CardClientController extends Controller
         return view('booster-opening', ['cards' => $cards]);
     }
 
+    // Afficher la page d'achat des cartes
+    public function marketBuy($idClient)
+    {
+        // récupérer info client
+        $client = Client::find($idClient);
+        if (!$client) {
+            return response()->json(['message' => 'Client not found'], 404);
+        }
+
+        // récupérer toutes les cartes
+        $cards = Card::all();
+
+        // filtrer les cartes déjà possédées par le client en retirant celles qui sont en quantité de 3 ou plus
+        $cardsClient = Card_client::where('client_id', $idClient)->get();
+        foreach ($cardsClient as $cardClient) {
+            if ($cardClient->quantity >= 3) {
+                $cards = $cards->reject(function ($card) use ($cardClient) {
+                    return $card->id == $cardClient->card_id;
+                });
+            }
+        }
+
+        // retourner la vue avec les données
+        return view('market', ['client' => $client, 'cards' => $cards]);
+    }
+
 }
