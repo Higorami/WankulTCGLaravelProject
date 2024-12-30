@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Card_client;
 use App\Models\Client;
+use App\Models\Extension;
 use Illuminate\Http\Request;
 
 class CardClientController extends Controller
@@ -57,4 +58,21 @@ class CardClientController extends Controller
 
         return response()->json(['message' => 'Card quantity increased']);
     }
+
+    // Afficher la page d'ouverture de booster
+    public function getBoosterList($idClient)
+    {
+        // récupérer info client
+        $client = Client::find($idClient);
+        if (!$client) {
+            return response()->json(['message' => 'Client not found'], 404);
+        }
+
+        // récupérer liste extensions
+        $extensions = Extension::all();
+
+        // retourner la vue avec les données
+        return view('booster-opening', ['client' => $client, 'extensions' => $extensions]);
+    }
+
 }

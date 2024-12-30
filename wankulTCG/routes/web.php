@@ -65,4 +65,7 @@ Route::get('/raretes', [RareteController::class, 'getAllRarete']);
 // Routes pour les artistes
 Route::get('/artistes', [ArtisteController::class, 'getAllArtiste']);
 
+// Routes pour l'ouverture de boosters
+Route::get('/booster/list/{idClient}', [CardClientController::class, 'getBoosterList']);
+
 require __DIR__.'/auth.php';
