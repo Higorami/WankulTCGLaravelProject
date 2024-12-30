@@ -142,4 +142,73 @@ class CardClientController extends Controller
         return view('market', ['client' => $client, 'cards' => $cards]);
     }
 
+    // Afficher la page d'achat des cartes filtrées par nom
+    public function marketBuyFiltered($idClient, $name)
+    {
+        // récupérer info client
+        $client = Client::find($idClient);
+        if (!$client) {
+            return response()->json(['message' => 'Client not found'], 404);
+        }
+
+        // récupérer toutes les cartes
+        $cards = Card::where('name', 'like', '%' . $name . '%')->get();
+
+        // filtrer les cartes déjà possédées par
+        $cardsClient = Card_client::where('client_id', $idClient)->get();
+        foreach ($cardsClient as $cardClient) {
+            if ($cardClient->quantity >= 3) {
+                $cards = $cards->reject(function ($card) use ($cardClient) {
+                    return $card->id == $cardClient->card_id;
+                });
+            }
+        }
+
+        // retourner la vue avec les données
+        return view('market', ['client' => $client, 'cards' => $cards]);
+    }
+
+    // Acheter une carte sur le marché
+    public function buyCard($idClient, $idCard)
+    {
+        // récupérer info client
+        $client = Client::find($idClient);
+        if (!$client) {
+            return response()->json(['message' => 'Client not found'], 404);
+        }
+
+        // récupérer info carte
+        $card = Card::find($idCard);
+        if (!$card) {
+            return response()->json(['message' => 'Card not found'], 404);
+        }
+
+        // vérifier si le client a assez d'argent
+        if ($client->money < $card->price) {
+            return response()->json(['message' => 'Not enough money'], 400);
+        }
+
+        // vérifier si le client possède déjà la carte
+        $cardClient = Card_client::where('client_id', $idClient)->where('card_id', $idCard)->first();
+        if ($cardClient) {
+            if ($cardClient->quantity >= 3) {
+                return response()->json(['message' => 'Card already owned'], 400);
+            }
+            $cardClient->quantity++;
+            $cardClient->save();
+        } else {
+            $cardClient = new Card_client();
+            $cardClient->card_id = $idCard;
+            $cardClient->client_id = $idClient;
+            $cardClient->quantity = 1;
+            $cardClient->save();
+        }
+
+        // débiter le client
+        $client->money -= $card->price;
+        $client->save();
+
+        return response()->json(['message' => 'Card bought']);
+    }
+
 }
