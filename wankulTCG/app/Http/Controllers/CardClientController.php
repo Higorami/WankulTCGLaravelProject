@@ -42,4 +42,19 @@ class CardClientController extends Controller
 
         return response()->json(['message' => 'Card added to collection']);
     }
+
+    // Augmenter la quantité d'une carte dans la collection d'un client (si la carte est déjà présente sinon on l'ajoute)
+    public function increaseCardQuantity($idCard, $idClient)
+    {
+        $cardClient = Card_client::where('client_id', $idClient)->where('card_id', $idCard)->first();
+        if (!$cardClient) {
+            // Si la carte n'existe pas dans la collection du client, on l'ajoute
+            return $this->addCardToCollection($idCard, $idClient);
+        }
+
+        $cardClient->quantity++;
+        $cardClient->save();
+
+        return response()->json(['message' => 'Card quantity increased']);
+    }
 }

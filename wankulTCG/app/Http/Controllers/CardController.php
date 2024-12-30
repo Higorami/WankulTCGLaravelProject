@@ -19,12 +19,12 @@ class CardController extends Controller
     // Récupérer les cartes d'une extension spécifique (par son id)
     public function getCardsBooster($idExtension)
     {
-        $extension = Extension::find($idExtension);
-        if (!$extension) {
-            return response()->json(['message' => 'Extension not found'], 404);
-        }
+        $cardsCommunes = Card::where('extension_id', $idExtension)->where('rarete_id', 1)->get();
+        $cardsNonCommunes = Card::where('extension_id', $idExtension)->where('rarete_id', '!=', 1)->get();
 
-        $cards = $extension->cards; // Si une relation a été définie dans le modèle Extension
+        // tirage de 5 cartes communes et 1 carte non commune
+        $cards = $cardsCommunes->random(5)->merge($cardsNonCommunes->random(1));
+
         return response()->json($cards);
     }
 
