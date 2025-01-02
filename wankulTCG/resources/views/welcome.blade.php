@@ -7,17 +7,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container">
-    <!-- Header -->
-    <header class="d-flex justify-content-between align-items-center py-3">
-        <img src="{{ asset('wankul_logo.png') }}" alt="Logo" class="img-fluid" style="width: 200px; height: auto;">
-        <nav>
-                <a href="{{ route('login') }}" class="btn btn-primary">Se Connecter</a>
-                <a href="{{ route('register') }}" class="btn btn-success">S'inscrire</a>
-        </nav>
-    </header>
 
-    <!-- Main Content -->
+@include('nav_main')
+
+<div class="container">
     <section class="text-center my-5">
         <h2>Bienvenue dans l'univers de Wankul</h2>
         <p>Découvrez des cartes rares, ouvrez des boosters et créez vos decks pour devenir le meilleur !</p>
@@ -30,13 +23,10 @@
     </section>
 
     <section>
-        <h3>Consulter le Wankul-dex</h3>
-        <a href="https://wankul.fr/pages/wankuldex" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">
-            Accéder au Wankul-dex
-        </a>
-    </section><br><br>
+        <h3>Accéder aux fonctionnalités de l'application</h3>
+        <p>Pour accéder aux différentes fonctionnalités de l'application, tel que l'ouverture de boosters, le market, la gestion des decks et la vente des cartes, veuillez vous connecter ou créer un compte si cela n'est pas déjà fait !</p>
+    </section>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

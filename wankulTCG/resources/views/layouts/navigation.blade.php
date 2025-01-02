@@ -5,9 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
+                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                 </div>
 
                 <!-- Navigation Links -->
@@ -15,6 +13,9 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <!-- Autres routes -->
+
                 </div>
             </div>
 
@@ -45,7 +46,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Déconnexion') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
