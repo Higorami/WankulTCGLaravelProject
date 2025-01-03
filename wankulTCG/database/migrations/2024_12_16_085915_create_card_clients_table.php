@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('card_clients', function (Blueprint $table) {
+        Schema::create('card_client', function (Blueprint $table) {
             // Définit la colonne card_id comme clé étrangère vers cards (unsignedBigInteger)
             $table->unsignedBigInteger('card_id');
             $table->foreign('card_id')->references('id_Card')->on('cards')->onDelete('cascade');
 
-            // Définit la colonne client_id comme clé étrangère vers clients (unsignedBigInteger)
-            $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id_Client')->on('clients')->onDelete('cascade');
+            // Définit la colonne user_id comme clé étrangère vers users (unsignedBigInteger)
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             // Définit la colonne quantity
             $table->integer('quantity')->default(1);
 
             // Définit une clé primaire composite
-            $table->primary(['card_id', 'client_id']);
+            $table->primary(['card_id', 'user_id']);
 
             // Ajoute des timestamps
             $table->timestamps();
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('card_clients');
+        Schema::dropIfExists('card_client');
     }
 };

@@ -14,15 +14,17 @@ class Deck extends Model
     // Spécifier que la clé primaire est auto-incrémentée (optionnel)
     public $incrementing = true;
 
-    // Définir les relations, si nécessaire, par exemple, avec des cartes (via LIGNE_DECK)
-    public function client()
+    // Définir les relations, si nécessaire
+    public function user()
     {
-        return $this->belongsTo(Client::class, 'client_id');
+        // Relation avec la table users
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function cards()
     {
+        // Relation avec les cartes via la table pivot ligne_deck
         return $this->belongsToMany(Card::class, 'ligne_deck', 'deck_id', 'card_id')
-                    ->withPivot('quantity');
+            ->withPivot('quantity');
     }
 }
