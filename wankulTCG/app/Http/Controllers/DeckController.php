@@ -3,33 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Deck;
-use App\Models\Client;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DeckController extends Controller
 {
-    // Récupérer les decks d'un client
-    public function getDecksClient($idClient)
+    // Récupérer les decks d'un user
+    public function getDecksUser($idUser)
     {
-        $client = Client::find($idClient);
-        if (!$client) {
-            return response()->json(['message' => 'Client not found'], 404);
+        $user = User::find($idUser);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
         }
 
-        $decks = $client->decks; // Relation définie dans le modèle Client
+        $decks = $user->decks; // Relation définie dans le modèle User
         return response()->json($decks);
     }
 
-    // Créer un deck pour un client
-    public function createDeckClient($idClient)
+    // Créer un deck pour un user
+    public function createDeckUser($idUser)
     {
-        $client = Client::find($idClient);
-        if (!$client) {
-            return response()->json(['message' => 'Client not found'], 404);
+        $user = User::find($idUser);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
         }
 
         $deck = new Deck();
-        $deck->client_id = $idClient;
+        $deck->user_id = $idUser;
         $deck->name_deck = 'New Deck';
         $deck->save();
 
