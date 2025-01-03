@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CardClientController;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\DeckController;
 use App\Http\Controllers\LigneDeckController;
 use App\Http\Controllers\ExtensionController;
@@ -37,11 +37,11 @@ Route::get('/client/{idClient}/card/{idCard}', [CardClientController::class, 'ge
 Route::post('/client/{idClient}/card/{idCard}/add', [CardClientController::class, 'addCardToCollection']);
 
 // Routes pour les clients
-Route::post('/client/register', [ClientController::class, 'registerClient']);
-Route::post('/client/login', [ClientController::class, 'connectClient']);
-Route::get('/client/{idClient}/info', [ClientController::class, 'getInfoClient']);
-Route::post('/client/{idClient}/money/decrease/{montant}', [ClientController::class, 'decreaseMoney']);
-Route::post('/client/{idClient}/money/increase/{montant}', [ClientController::class, 'increaseMoney']);
+Route::post('/register', [UserController::class, 'registerUser']);
+Route::post('/connect', [UserController::class, 'connectUser']);
+Route::get('/user/{id}', [UserController::class, 'getUserInfo']);
+Route::post('/user/{id}/decrease-money/{amount}', [UserController::class, 'decreaseMoney']);
+Route::post('/user/{id}/increase-money/{amount}', [UserController::class, 'increaseMoney']);
 
 // Routes pour les decks
 Route::get('/client/{idClient}/decks', [DeckController::class, 'getDecksClient']);
