@@ -1,4 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue sur Wankul TCG Pocket</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+@include('nav_main')
+
 <div>
+    <h1>Booster opening</h1>
     <div class="liste-cartes">
         @for ($i = 0; $i < 6; $i++)
             <div class="carte carte-{{ $i + 1 }}">
@@ -11,11 +24,13 @@
     </div>
 </div>
 
+</body>
+
 <style>
 
     .liste-cartes {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         width: 100%;
         height: 100%;
@@ -38,7 +53,12 @@
     }
 
     .back {
+        background-color: blue;
         transform: rotateY(180deg);
+    }
+
+    .front {
+        background-color: red;
     }
 
     /* animation au lancement */

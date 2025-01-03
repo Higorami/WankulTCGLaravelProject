@@ -123,6 +123,12 @@ class CardClientController extends Controller
         return view('booster-opening', ['cards' => $cards]);
     }
 
+    // Ouvrir un booster (test)
+    public function openBoosterTest($idTest)
+    {
+        return view('booster-opening', ['id' => $idTest]);
+    }
+
     // Afficher la page d'achat des cartes
     public function marketBuy($idUser)
     {

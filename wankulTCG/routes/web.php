@@ -69,8 +69,9 @@ Route::get('/artistes', [ArtisteController::class, 'getAllArtiste']);
 Route::get('/booster/list/test', [CardClientController::class, 'getBoosterListTest']);
 Route::get('/booster/list/{idClient}', [CardClientController::class, 'getBoosterList']);
 Route::post('/booster/open/{idClient}/{idExtension}', [CardClientController::class, 'openBooster']);
+Route::get('/booster/open/test/{idTest}', [CardClientController::class, 'openBoosterTest'])->name('booster.open');
 
 // Routes pour les achats de cartes
-Route::post('/client/{idClient}/market', [CardClientController::class, 'marketBuy']);
+Route::get('/client/{idClient}/market', [CardClientController::class, 'marketBuy']);
 
 require __DIR__.'/auth.php';
