@@ -8,10 +8,10 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // Appeler le seeder spécifique
         $this->call(UsersTableSeeder::class);
-
-        // Vous pouvez appeler d'autres seeders si nécessaire
-        // $this->call(OtherTableSeeder::class);
+        $this->call(RaretesTableSeeder::class);
+        $this->call(ArtistesTableSeeder::class);
+        $this->call(ExtensionsTableSeeder::class);
+        $this->call(CardsTableSeeder::class);
     }
 }
