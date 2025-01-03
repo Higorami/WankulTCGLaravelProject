@@ -48,7 +48,7 @@ class CardClientController extends Controller
     // Augmenter la quantité d'une carte dans la collection d'un user (si la carte est déjà présente sinon on l'ajoute)
     public function increaseCardQuantity($idCard, $idUser)
     {
-        $cardClient = Card_client::where('ruser_id', $idUser)->where('card_id', $idCard)->first();
+        $cardClient = Card_client::where('user_id', $idUser)->where('card_id', $idCard)->first();
         if (!$cardClient) {
             // Si la carte n'existe pas dans la collection du user, on l'ajoute
             return $this->addCardToCollection($idCard, $idUser);
