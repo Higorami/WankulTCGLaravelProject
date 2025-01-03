@@ -14,6 +14,10 @@ class CardsTableSeeder extends Seeder
     public function run(): void
     {
         $cards = [
+
+            // extension 1
+
+            // rarete 1
             [
                 'name_card' => 'Ouvrier',
                 'imageName' => 'Ouvrier.jpg',
@@ -37,6 +41,62 @@ class CardsTableSeeder extends Seeder
                 'updated_at' => Carbon::now()
             ],
             [
+                'name_card' => 'Footballeur',
+                'imageName' => 'Footballeur.jpg',
+                'description_card' => 'Personne ne le sait, mais sa stratégie aux tirs au but, c\'est "am stram gram".',
+                'price' => 0.02,
+                'artiste_id' => 6,
+                'rarete_id' => 1,
+                'extension_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name_card' => 'Golfeur',
+                'imageName' => 'Golfeur.jpg',
+                'description_card' => 'Banni de la plupart des terrains pour avoir utilisé son club sur d\'autres choses que la balle.',
+                'price' => 0.02,
+                'artiste_id' => 6,
+                'rarete_id' => 1,
+                'extension_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name_card' => 'Skieur',
+                'imageName' => 'Skieur.jpg',
+                'description_card' => 'Amateur de sensations fortes, il adore prendre les pistes vertes extrêmemement dangereuses.',
+                'price' => 0.02,
+                'artiste_id' => 6,
+                'rarete_id' => 1,
+                'extension_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name_card' => 'Wilson',
+                'imageName' => 'Wilson.jpg',
+                'description_card' => 'Gentil petit ballon qui fait office d\'ami avec curieusement, un drôle de trou derrière la tête.',
+                'price' => 0.02,
+                'artiste_id' => 6,
+                'rarete_id' => 1,
+                'extension_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name_card' => 'Vieux',
+                'imageName' => 'Vieux.jpg',
+                'description_card' => 'Il s\'assoit chaque jour sur son banc à 10h06 et distribue exactement 38g de graines aux pigeons.',
+                'price' => 0.02,
+                'artiste_id' => 6,
+                'rarete_id' => 1,
+                'extension_id' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            // rarete 2
+            [
                 'name_card' => 'Francais',
                 'imageName' => 'Francais.jpg',
                 'description_card' => 'La classe à la française.',
@@ -47,6 +107,7 @@ class CardsTableSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
+            // rarete 3
             [
                 'name_card' => 'Samourabstrait',
                 'imageName' => 'Samourabstrait.jpg',
@@ -58,6 +119,7 @@ class CardsTableSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
+            // rarete 4
             [
                 'name_card' => 'Bob Lennon',
                 'imageName' => 'BobLennon.jpg',
@@ -69,6 +131,9 @@ class CardsTableSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]
+
+            // extension 2
+            
         ];
 
         DB::table('cards')->insert($cards);

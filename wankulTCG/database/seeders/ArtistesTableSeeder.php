@@ -19,6 +19,7 @@ class ArtistesTableSeeder extends Seeder
             ['artiste_name' => 'Michael Crichton', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['artiste_name' => 'Farfa', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['artiste_name' => 'Seb du grenier', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['artiste_name' => 'KaroArt', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ];
 
         DB::table('artistes')->insert($artistes);
