@@ -76,6 +76,13 @@ class CardClientController extends Controller
         return view('booster-list', ['user' => $user, 'extensions' => $extensions]);
     }
 
+    // Afficher la page d'ouverture de booster (test)
+    public function getBoosterListTest()
+    {
+        // retourner la vue 
+        return view('booster-list');
+    }
+
     // Ouvrir un booster
     public function openBooster($idUser, $idExtension)
     {
