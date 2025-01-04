@@ -21,13 +21,21 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
-    /**
-     * Relation avec les cartes via la table pivot card_client
-     */
+    // Relation avec les decks
+    public function decks()
+    {
+        return $this->hasMany(Deck::class, 'user_id');
+    }
+
+    // Relation avec les cartes
     public function cards()
     {
         return $this->belongsToMany(Card::class, 'card_client', 'user_id', 'card_id')

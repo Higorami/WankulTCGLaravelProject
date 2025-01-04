@@ -59,14 +59,18 @@ class CardController extends Controller
         $user = auth()->user(); // Récupérer l'utilisateur connecté
 
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir vos cartes.');
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir vos decks.');
         }
+
+        // Récupérer les 5 decks de l'utilisateur
+        $decks = $user->decks()->take(5)->get();  // On récupère les 5 premiers decks de l'utilisateur
 
         // Récupérer les cartes de l'utilisateur
         $cards = $user->cards()->with('artiste', 'rarete', 'extension')->get();
 
-        // Retourner une vue avec les cartes
-        return view('cards', compact('cards'));
+        // Retourner la vue avec les cartes et les decks
+        return view('cards', compact('cards', 'decks'));
     }
+
 
 }
