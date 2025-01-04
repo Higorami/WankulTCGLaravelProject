@@ -68,12 +68,11 @@ Route::get('/raretes', [RareteController::class, 'getAllRarete']);
 Route::get('/artistes', [ArtisteController::class, 'getAllArtiste']);
 
 // Routes pour l'ouverture de boosters
-Route::get('/booster/list/test', [CardClientController::class, 'getBoosterListTest']);
-Route::get('/booster/list/{idClient}', [CardClientController::class, 'getBoosterList']);
+Route::get('/booster/list/{idClient}', [CardClientController::class, 'getBoosterList'])->name('booster.list');
 Route::get('/booster/open/{idClient}/{idExtension}', [CardClientController::class, 'openBooster'])->name('booster.open');
-Route::get('/booster/open/test/{idTest}', [CardClientController::class, 'openBoosterTest'])->name('booster.open.test');
 
 // Routes pour les achats de cartes
-Route::get('/client/{idClient}/market', [CardClientController::class, 'marketBuy']);
+Route::get('/client/test/market', [CardClientController::class, 'marketBuyTest'])->name('market.buy.test');
+Route::get('/client/{idClient}/market', [CardClientController::class, 'marketBuy'])->name('market.buy');
 
 require __DIR__.'/auth.php';
