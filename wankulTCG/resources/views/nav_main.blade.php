@@ -9,13 +9,24 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
+            <!-- Cette liste est toujours accessible -->
+            <ul class="navbar-nav d-flex">
                 <li class="nav-item">
                     <a class="nav-link" href="https://wankul.fr/pages/wankuldex" target="_blank" rel="noopener noreferrer">Wankul-dex</a>
                 </li>
+                @auth
+                    <!-- Le lien "Mes Boosters" est visible uniquement si l'utilisateur est authentifié -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('booster/list/' . Auth::id()) }}">Ouverture Boosters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('client/' . Auth::id()) . '/market' }}">Market</a>
+                    </li>
+                @endauth
             </ul>
 
-            <ul class="navbar-nav">
+            <!-- Cette liste est pour l'authentification et l'utilisateur -->
+            <ul class="navbar-nav ms-auto">
                 @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
