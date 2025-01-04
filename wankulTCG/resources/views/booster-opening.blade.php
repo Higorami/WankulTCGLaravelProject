@@ -13,14 +13,17 @@
 <div>
     <h1>Booster opening</h1>
     <div class="liste-cartes">
-        @for ($i = 0; $i < 6; $i++)
+        @foreach ($cards as $i => $card)
             <div class="carte carte-{{ $i + 1 }}">
-                <div class="front" style="background-image: url('carte-{{ $i + 1 }}.png')">
+                <div class="front" style="background-image: url('carte-{{ $card->id_Card }}.png')">
+                    @if ($card->sell)
+                        <h4>Vendue</h4>
+                    @endif
                 </div>
                 <div class="back" style="background-image: url('dos-carte.png')">
                 </div>
             </div>
-        @endfor
+        @endforeach
     </div>
 </div>
 
@@ -59,6 +62,15 @@
 
     .front {
         background-color: red;
+    }
+
+    h4 {
+        height: 30px;
+        width: 100%;
+        background-color: #000;
+        text-align: center;
+        color: #fff;
+        z-index: 1;
     }
 
     /* animation au lancement */

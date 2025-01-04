@@ -12,13 +12,6 @@
 
 <div>
     <div class="liste-booster">
-        @for ($i = 0; $i < 5; $i++)
-            <a href="{{ route('booster.open.test', ['idTest' => $i + 1]) }}">
-                <div class="booster booster-{{ $i + 1 }}" style="background-image: url('booster-{{ $i + 1 }}.png')">
-                    <h2>Booster n°{{ $i + 1 }}</h2>
-                </div>
-            </a>
-        @endfor
         @foreach ($extensions as $extension)
             <a href="{{ route('booster.open', ['idClient' => $user->id, 'idExtension' => $extension->id_Extension]) }}">
                 <div class="booster booster-{{ $extension->id_Extension }}" style="background-image: url('booster-{{ $extension->id_Extension }}.png')">

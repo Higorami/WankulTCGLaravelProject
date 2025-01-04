@@ -100,9 +100,11 @@ class CardClientController extends Controller
             if ($cardClient) {
                 if ($cardClient->quantity < 3) {
                     Card_client::where('user_id', $idUser)->where('card_id', $card->id_Card)->increment('quantity');
+                    $card->sell = false;
                 } else {
                     // vendre la carte
-                    $user = User::find($idUser)->increment('money', $card->price);
+                    User::find($idUser)->increment('money', $card->price);
+                    $card->sell = true;   
                 }
             } else {
                 $cardClient = new Card_client();
@@ -110,6 +112,7 @@ class CardClientController extends Controller
                 $cardClient->user_id = $idUser;
                 $cardClient->quantity = 1;
                 $cardClient->save();
+                $card->sell = false;
             }
         }
 
