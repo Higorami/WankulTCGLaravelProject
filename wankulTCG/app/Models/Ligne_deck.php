@@ -9,6 +9,10 @@ class Ligne_deck extends Model
     // Nom de la table
     protected $table = 'ligne_deck';
 
+    // clés primaires
+    protected $primaryKey = ['card_id', 'deck_id'];
+    public $incrementing = false;   
+
     // Désactiver les timestamps si vous ne les souhaitez pas (optionnel)
     public $timestamps = true;
 

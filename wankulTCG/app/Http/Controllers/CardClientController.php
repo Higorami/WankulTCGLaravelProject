@@ -86,11 +86,6 @@ class CardClientController extends Controller
     // Ouvrir un booster
     public function openBooster($idUser, $idExtension)
     {
-        // récupérer les cartes du user appartenant à cette extension
-        $cardsClient = Card_client::where('user_id', $idUser)->whereHas('card', function ($query) use ($idExtension) {
-            $query->where('extension_id', $idExtension);
-        })->get();
-
         // récupérer les cartes du booster
         $cardsCommunes = Card::where('extension_id', $idExtension)->where('rarete_id', 1)->get();
         $cardsNonCommunes = Card::where('extension_id', $idExtension)->where('rarete_id', '!=', 1)->get();
@@ -100,20 +95,18 @@ class CardClientController extends Controller
 
         // ajouter les cartes au user ou les vendre si le user les possède déjà en 3 exemplaires
         foreach ($cards as $card) {
-            $cardClient = $cardsClient->where('card_id', $card->id)->first();
+            // verif si card dans card client
+            $cardClient = Card_client::where('user_id', $idUser)->where('card_id', $card->id_Card)->first();
             if ($cardClient) {
                 if ($cardClient->quantity < 3) {
-                    $cardClient->quantity++;
-                    $cardClient->save();
+                    Card_client::where('user_id', $idUser)->where('card_id', $card->id_Card)->increment('quantity');
                 } else {
                     // vendre la carte
-                    $user = User::find($idUser);
-                    $user->money += $card->price;
-                    $user->save();
+                    $user = User::find($idUser)->increment('money', $card->price);
                 }
             } else {
                 $cardClient = new Card_client();
-                $cardClient->card_id = $card->id;
+                $cardClient->card_id = $card->id_Card;
                 $cardClient->user_id = $idUser;
                 $cardClient->quantity = 1;
                 $cardClient->save();
@@ -146,7 +139,7 @@ class CardClientController extends Controller
         foreach ($cardsClient as $cardClient) {
             if ($cardClient->quantity >= 3) {
                 $cards = $cards->reject(function ($card) use ($cardClient) {
-                    return $card->id == $cardClient->card_id;
+                    return $card->id_Card == $cardClient->card_id;
                 });
             }
         }
@@ -172,7 +165,7 @@ class CardClientController extends Controller
         foreach ($cardsClient as $cardClient) {
             if ($cardClient->quantity >= 3) {
                 $cards = $cards->reject(function ($card) use ($cardClient) {
-                    return $card->id == $cardClient->card_id;
+                    return $card->id_Card == $cardClient->card_id;
                 });
             }
         }
