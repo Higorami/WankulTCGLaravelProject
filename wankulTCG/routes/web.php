@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/cards', [CardController::class, 'getAllCards']);
 Route::get('/cards/extension/{idExtension}', [CardController::class, 'getCardsBooster']);
 Route::get('/cards/price/{idCard}', [CardController::class, 'getPriceCard']);
+Route::middleware(['auth'])->get('/user/cards', [CardController::class, 'userCards'])->name('user.cards');
+
 
 // Routes pour les cartes des clients
 Route::get('/client/{idClient}/cards', [CardClientController::class, 'getCardClient']);
