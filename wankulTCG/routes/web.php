@@ -72,7 +72,7 @@ Route::get('/booster/list/{idClient}', [CardClientController::class, 'getBooster
 Route::get('/booster/open/{idClient}/{idExtension}', [CardClientController::class, 'openBooster'])->name('booster.open');
 
 // Routes pour les achats de cartes
-Route::get('/client/test/market', [CardClientController::class, 'marketBuyTest'])->name('market.buy.test');
-Route::get('/client/{idClient}/market', [CardClientController::class, 'marketBuy'])->name('market.buy');
+Route::get('/client/{idClient}/market', [CardClientController::class, 'marketBuy'])->name('market');
+Route::post('/client/{idClient}/market', [CardClientController::class, 'buyCard'])->name('market.buy');
 
 require __DIR__.'/auth.php';

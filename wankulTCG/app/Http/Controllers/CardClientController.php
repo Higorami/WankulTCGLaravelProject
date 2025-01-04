@@ -76,13 +76,6 @@ class CardClientController extends Controller
         return view('boosters-list', ['user' => $user, 'extensions' => $extensions]);
     }
 
-    // Afficher la page d'ouverture de booster (test)
-    public function getBoosterListTest()
-    {
-        // retourner la vue 
-        return view('boosters-list');
-    }
-
     // Ouvrir un booster
     public function openBooster($idUser, $idExtension)
     {
@@ -119,15 +112,19 @@ class CardClientController extends Controller
         return view('booster-opening', ['cards' => $cards]);
     }
 
-    // Ouvrir un booster (test)
-    public function openBoosterTest($idTest)
-    {
-        return view('booster-opening', ['id' => $idTest]);
-    }
-
     // Afficher la page d'achat des cartes
     public function marketBuy($idUser)
     {
+        return $this->marketBuyMessageError($idUser, '', '');
+    }
+
+    // Afficher la page d'achat des cartes avec message d'erreur
+    public function marketBuyMessageError($idUser, $message, $error, $name = '')
+    {
+        if (request('name')) {
+            return $this->marketBuyFiltered($idUser, request('name'));
+        }
+
         // récupérer info user
         $user = User::find($idUser);
         if (!$user) {
@@ -148,7 +145,7 @@ class CardClientController extends Controller
         }
 
         // retourner la vue avec les données
-        return view('market', ['user' => $user, 'cards' => $cards]);
+        return view('market', ['user' => $user, 'cards' => $cards, 'message' => $message, 'error' => $error, 'name' => $name]);
     }
 
     // Afficher la page d'achat des cartes filtrées par nom
@@ -161,7 +158,7 @@ class CardClientController extends Controller
         }
 
         // récupérer toutes les cartes
-        $cards = Card::where('name', 'like', '%' . $name . '%')->get();
+        $cards = Card::where('name_card', 'like', '%' . $name . '%')->get();
 
         // filtrer les cartes déjà possédées par
         $cardsClient = Card_client::where('user_id', $idUser)->get();
@@ -174,12 +171,18 @@ class CardClientController extends Controller
         }
 
         // retourner la vue avec les données
-        return view('market', ['user' => $user, 'cards' => $cards]);
+        return view('market', ['user' => $user, 'cards' => $cards, 'message' => '', 'error' => '', 'name' => $name]);
     }
 
     // Acheter une carte sur le marché
-    public function buyCard($idUser, $idCard)
+    public function buyCard($idUser)
     {
+        // récupérer data du formulaire
+        $idCard = request('card_id');
+
+        // récupéré le nom si filtré
+        $name = request('name');
+
         // récupérer info user
         $user = User::find($idUser);
         if (!$user) {
@@ -194,17 +197,16 @@ class CardClientController extends Controller
 
         // vérifier si le user a assez d'argent
         if ($user->money < $card->price) {
-            return response()->json(['message' => 'Not enough money'], 400);
+            return $this->marketBuyMessageError($idUser, '', 'Vous n\'avez pas assez d\'argent pour acheter cette carte.');
         }
 
         // vérifier si le user possède déjà la carte
         $cardClient = Card_client::where('user_id', $idUser)->where('card_id', $idCard)->first();
         if ($cardClient) {
             if ($cardClient->quantity >= 3) {
-                return response()->json(['message' => 'Card already owned'], 400);
+                return $this->marketBuyMessageError($idUser, '', 'Vous possédez déjà cette carte en 3 exemplaires.');
             }
-            $cardClient->quantity++;
-            $cardClient->save();
+            Card_client::where('user_id', $idUser)->where('card_id', $idCard)->increment('quantity');
         } else {
             $cardClient = new Card_client();
             $cardClient->card_id = $idCard;
@@ -214,10 +216,9 @@ class CardClientController extends Controller
         }
 
         // débiter le user
-        $user->money -= $card->price;
-        $user->save();
+        User::find($idUser)->decrement('money', $card->price);
 
-        return response()->json(['message' => 'Card bought']);
+        return $this->marketBuyMessageError($idUser, 'Carte achetée avec succès !', '', $name);
     }
 
 }
