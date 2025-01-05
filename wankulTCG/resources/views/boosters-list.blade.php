@@ -15,7 +15,7 @@
         @foreach ($extensions as $extension)
             <a href="{{ route('booster.open', ['idExtension' => $extension->id_Extension]) }}">
                 <div class="booster booster-{{ $extension->id_Extension }}">
-                    <img src="{{ asset('storage/boosters/' . $extension->name_extension) }}" alt="boosters-{{ $extension->name_extension }}">
+                    <img src="{{ asset('storage/boosters/' . $extension->name_extension) .'.webp' }}" alt="boosters-{{ $extension->name_extension }}">
                     <h2>{{ $extension->name_extension }}</h2>
                 </div>
             </a>
@@ -35,20 +35,33 @@
         height: 100%;
     }
 
+    a {
+        text-decoration: none;
+    }
+
     .booster {
+        position: relative;
         width: 200px;
         height: 300px;
-        background-color: #000;
+        background-color: blue;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
 
+    .booster img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+
     h2 {
         height: 50px;
         width: 100%;
-        background-color: #000;
+        background-color: rgba(0, 0, 0, 0.5);
         text-align: center;
         color: #fff;
         z-index: 1;
