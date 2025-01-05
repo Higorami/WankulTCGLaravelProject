@@ -17,10 +17,10 @@
                 @auth
                     <!-- Le lien "Mes Boosters" est visible uniquement si l'utilisateur est authentifié -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('booster/list/' . Auth::id()) }}">Ouverture Boosters</a>
+                        <a class="nav-link" href="{{ url('booster/list/') }}">Ouverture Boosters</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('client/' . Auth::id()) . '/market' }}">Market</a>
+                        <a class="nav-link" href="{{ url('client/market') }}">Market</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('user/cards') }}">Page perso</a>
