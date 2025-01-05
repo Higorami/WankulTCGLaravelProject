@@ -41,9 +41,8 @@
 
     .booster {
         position: relative;
-        width: 200px;
-        height: 300px;
-        background-color: blue;
+        width: 20vw;
+        height: 30vw;
         display: flex;
         flex-direction: column;
         justify-content: center;
