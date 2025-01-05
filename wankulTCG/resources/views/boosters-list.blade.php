@@ -13,7 +13,7 @@
 <div>
     <div class="liste-booster">
         @foreach ($extensions as $extension)
-            <a href="{{ route('booster.open', ['idClient' => $user->id, 'idExtension' => $extension->id_Extension]) }}">
+            <a href="{{ route('booster.open', ['idExtension' => $extension->id_Extension]) }}">
                 <div class="booster booster-{{ $extension->id_Extension }}" style="background-image: url('booster-{{ $extension->id_Extension }}.png')">
                     <h2>{{ $extension->name_extension }}</h2>
                 </div>
