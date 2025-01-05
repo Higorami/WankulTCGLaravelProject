@@ -15,6 +15,7 @@
         @foreach ($extensions as $extension)
             <a href="{{ route('booster.open', ['idExtension' => $extension->id_Extension]) }}">
                 <div class="booster booster-{{ $extension->id_Extension }}" style="background-image: url('booster-{{ $extension->id_Extension }}.png')">
+                    <img src="{{ asset('storage/booster/' . $extension->id_Extension) }}" alt="booster-{{ $extension->id_Extension }}">
                     <h2>{{ $extension->name_extension }}</h2>
                 </div>
             </a>

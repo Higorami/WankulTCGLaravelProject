@@ -22,18 +22,19 @@
             <form action="{{ route('market') }}" method="get">
                 @csrf
 
-                <label for="name">Nom</label>
-                <input type="text" name="name" id="name" value="{{ $name }}">
+                <input type="text" name="name" id="name" placeholder="Nom" value="{{ $name }}">
                 <button type="submit">Filtrer</button>
             </form>
         </div>
-        <div class="liste-cartes">
-            @foreach ($cards as $card)
-                <div class="ensemble-carte">
-                    <div class="carte">
-                        <div class="front" style="background-image: url('{{ $card->image }}')"></div>
-                    </div>
-                    <div class="info-carte">
+        <div class="porte-monnaie">
+            <h4>Porte-monnaie : {{ $user->money }} €</h4>
+        </div>
+        <div class="cards-container">
+            @foreach($cards as $card)
+                <div class="card-item">
+                    <div class="card-frame"></div> <!-- Cadre décoratif -->
+                    <img src="{{ asset('storage/cards/' . $card->imageName) }}" alt="{{ $card->name_card }}" class="card-image">
+                    <div class="card-info">
                         <h4>{{ $card->price }} €</h4>
                         <form action="{{ route('market.buy') }}" method="post">
                             @csrf
@@ -45,6 +46,8 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+        <div class="no-cards">
             @if (count($cards) == 0)
                 <h4>Aucune carte que vous ne possédez pas déjà en 3 exemplaires ne correspond à votre recherche</h4>
             @endif
@@ -73,52 +76,61 @@
         margin-bottom: 20px;
     }
 
-    .liste-cartes {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        align-items: center;
+    .cards-container {
+        max-width: 90vw;
+        margin: 20px auto;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* 3 colonnes */
+        gap: 20px;
+    }
+
+    .card-item {
+        position: relative; /* Nécessaire pour positionner le cadre */
+        text-align: center;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        padding: 15px;
+        transition: transform 0.2s;
+    }
+    .card-item:hover {
+        transform: translateY(-5px); /* L'effet au survol */
+    }
+    .card-image {
+        width: 100%; /* L'image occupe toute la largeur */
+        max-width: 15vw; /* Limite la taille des images */
+        height: auto;
+        margin: 0 auto;
+    }
+    .card-info {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .card-frame {
+        position: absolute; /* Positionne le cadre par-dessus la carte */
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
+        border: 5px solid #ffce00; /* Couleur et épaisseur du cadre */
+        border-radius: 10px; /* Assure que le cadre suit les contours de la carte */
+        pointer-events: none; /* Permet de cliquer à travers le cadre */
+        box-shadow: 0 0 10px rgba(255, 206, 0, 0.7); /* Ajoute un effet lumineux */
+    }
+    .card-item:hover .card-frame {
+        border-color: #ff9500; /* Change la couleur du cadre au survol */
+        box-shadow: 0 0 15px rgba(255, 149, 0, 0.9);
     }
 
-    .ensemble-carte {
-        width: 17vw;
-        height: max-content;
+    .no-cards {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .carte {
-        width: 100%;
-        height: 24vw;
-        background-color: #000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .front {
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-    }
-
-    .info-carte {
-        width: 100%;
-        height: 5vw;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .info-carte * {
-        margin: 3px;
+        margin-top: 20px;
     }
 
 </style>

@@ -138,10 +138,6 @@ class CardClientController extends Controller
 
         $idUser = $user->id;
 
-        if (request('name')) {
-            return $this->marketBuyFiltered($idUser, request('name'));
-        }
-
         // récupérer info user
         $user = User::find($idUser);
         if (!$user) {
@@ -150,6 +146,10 @@ class CardClientController extends Controller
 
         // récupérer toutes les cartes
         $cards = Card::all();
+
+        // récupérer toutes les cartes
+        $name = request('name');
+        $cards = Card::where('name_card', 'like', '%' . $name . '%')->get();
 
         // filtrer les cartes déjà possédées par le user en retirant celles qui sont en quantité de 3 ou plus
         $cardsClient = Card_client::where('user_id', $idUser)->get();
@@ -163,32 +163,6 @@ class CardClientController extends Controller
 
         // retourner la vue avec les données
         return view('market', ['user' => $user, 'cards' => $cards, 'message' => $message, 'error' => $error, 'name' => $name]);
-    }
-
-    // Afficher la page d'achat des cartes filtrées par nom
-    public function marketBuyFiltered($idUser, $name)
-    {
-        // récupérer info user
-        $user = User::find($idUser);
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-
-        // récupérer toutes les cartes
-        $cards = Card::where('name_card', 'like', '%' . $name . '%')->get();
-
-        // filtrer les cartes déjà possédées par
-        $cardsClient = Card_client::where('user_id', $idUser)->get();
-        foreach ($cardsClient as $cardClient) {
-            if ($cardClient->quantity >= 3) {
-                $cards = $cards->reject(function ($card) use ($cardClient) {
-                    return $card->id_Card == $cardClient->card_id;
-                });
-            }
-        }
-
-        // retourner la vue avec les données
-        return view('market', ['user' => $user, 'cards' => $cards, 'message' => '', 'error' => '', 'name' => $name]);
     }
 
     // Acheter une carte sur le marché
@@ -222,14 +196,14 @@ class CardClientController extends Controller
 
         // vérifier si le user a assez d'argent
         if ($user->money < $card->price) {
-            return $this->marketBuyMessageError($idUser, '', 'Vous n\'avez pas assez d\'argent pour acheter cette carte.');
+            return $this->marketBuyMessageError('', 'Vous n\'avez pas assez d\'argent pour acheter cette carte.');
         }
 
         // vérifier si le user possède déjà la carte
         $cardClient = Card_client::where('user_id', $idUser)->where('card_id', $idCard)->first();
         if ($cardClient) {
             if ($cardClient->quantity >= 3) {
-                return $this->marketBuyMessageError($idUser, '', 'Vous possédez déjà cette carte en 3 exemplaires.');
+                return $this->marketBuyMessageError('', 'Vous possédez déjà cette carte en 3 exemplaires.');
             }
             Card_client::where('user_id', $idUser)->where('card_id', $idCard)->increment('quantity');
         } else {
