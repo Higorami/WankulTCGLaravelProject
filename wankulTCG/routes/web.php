@@ -46,10 +46,11 @@ Route::post('/user/{id}/decrease-money/{amount}', [UserController::class, 'decre
 Route::post('/user/{id}/increase-money/{amount}', [UserController::class, 'increaseMoney']);
 
 // Routes pour les decks
-Route::get('/client/{idClient}/decks', [DeckController::class, 'getDecksClient']);
-Route::post('/client/{idClient}/deck/create', [DeckController::class, 'createDeckClient']);
-Route::put('/deck/{idDeck}/name', [DeckController::class, 'updateNomDeck']);
-Route::delete('/deck/{idDeck}', [DeckController::class, 'deleteDeck']);
+Route::get('/decks/{id}', [DeckController::class, 'show'])->name('decks.show'); // Voir un deck
+Route::get('/decks/create/{index}', [DeckController::class, 'create'])->name('decks.create'); // Créer un deck
+Route::post('/deck/{id}/add-card', [DeckController::class, 'addCard'])->name('deck.addCard');
+Route::post('/deck/{id}/remove-card', [DeckController::class, 'removeCard'])->name('deck.removeCard');
+Route::post('/deck/{id}/update-quantity', [DeckController::class, 'updateCardQuantity'])->name('deck.updateCardQuantity');
 
 // Routes pour les lignes de deck
 Route::get('/deck/{idDeck}/lines', [LigneDeckController::class, 'getAllLigneDeck']);
