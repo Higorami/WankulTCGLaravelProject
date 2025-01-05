@@ -14,7 +14,9 @@ class ExtensionsTableSeeder extends Seeder
     public function run(): void
     {
         $extensions = [
-            ['name_extension' => 'Duelist Alliance', 'description_extension' => 'Définitivement un set Wankul qui ne pose aucun problème au niveau des droits par rapport à un certain jeu de cartes contenant des marionnettes au sein de Duelist Alliance.', 'code_extension' => 'DUEA', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['name_extension' => 'ORIGINS', 'description_extension' => 'Définitivement un set Wankul qui ne pose aucun problème au niveau des droits par rapport à un certain jeu de cartes contenant des marionnettes au sein de ORIGINS.', 'code_extension' => 'ORI', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['name_extension' => 'CAMPUS', 'description_extension' => 'Définitivement un set Wankul qui ne pose aucun problème au niveau des droits par rapport à un certain jeu de cartes contenant des marionnettes au sein de CAMPUS.', 'code_extension' => 'CAMP', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['name_extension' => 'BATTLE', 'description_extension' => 'Définitivement un set Wankul qui ne pose aucun problème au niveau des droits par rapport à un certain jeu de cartes contenant des marionnettes au sein de BATTLE.', 'code_extension' => 'BATL', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ];
 
         DB::table('extensions')->insert($extensions);
