@@ -125,18 +125,20 @@
         <h2 class="section-title">Mes Decks</h2>
         <div class="decks-list">
             @foreach ($decks as $deck)
-                <div class="deck-item">
+                <a href="{{ route('decks.show', $deck->id_Deck) }}" class="deck-item">
                     {{ $deck->name_deck }}
-                </div>
+                </a>
             @endforeach
 
             @for ($i = count($decks); $i < 5; $i++)
-                <div class="deck-item">
+                <a href="{{ route('decks.create', ['index' => $i + 1]) }}" class="deck-item">
                     Deck vide
-                </div>
+                </a>
             @endfor
         </div>
     </div>
+
+</div>
 
     <div class="header">
         <h1>Mes Cartes</h1>

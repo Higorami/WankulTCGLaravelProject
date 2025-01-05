@@ -23,8 +23,14 @@ class Deck extends Model
 
     public function cards()
     {
-        // Relation avec les cartes via la table pivot ligne_deck
-        return $this->belongsToMany(Card::class, 'ligne_deck', 'deck_id', 'card_id')
-            ->withPivot('quantity');
+        return $this->belongsToMany(Card::class, 'ligne_decks', 'deck_id', 'card_id')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
+
+
+    protected $fillable = [
+        'user_id',
+        'name_deck',
+    ];
 }
