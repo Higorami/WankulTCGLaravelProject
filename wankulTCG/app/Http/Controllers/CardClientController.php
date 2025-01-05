@@ -61,24 +61,33 @@ class CardClientController extends Controller
     }
 
     // Afficher la page d'ouverture de booster
-    public function getBoosterList($idUser)
+    public function getBoosterList()
     {
         // récupérer info user
-        $user = User::find($idUser);
+        $user = auth()->user(); // Récupérer l'utilisateur connecté
+
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir vos decks.');
         }
 
         // récupérer liste extensions
         $extensions = Extension::all();
 
         // retourner la vue avec les données
-        return view('boosters-list', ['user' => $user, 'extensions' => $extensions]);
+        return view('boosters-list', ['extensions' => $extensions]);
     }
 
     // Ouvrir un booster
-    public function openBooster($idUser, $idExtension)
+    public function openBooster($idExtension)
     {
+        $user = auth()->user(); // Récupérer l'utilisateur connecté
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir vos decks.');
+        }
+
+        $idUser = $user->id;
+
         // récupérer les cartes du booster
         $cardsCommunes = Card::where('extension_id', $idExtension)->where('rarete_id', 1)->get();
         $cardsNonCommunes = Card::where('extension_id', $idExtension)->where('rarete_id', '!=', 1)->get();
@@ -113,14 +122,22 @@ class CardClientController extends Controller
     }
 
     // Afficher la page d'achat des cartes
-    public function marketBuy($idUser)
+    public function marketBuy()
     {
-        return $this->marketBuyMessageError($idUser, '', '');
+        return $this->marketBuyMessageError('', '');
     }
 
     // Afficher la page d'achat des cartes avec message d'erreur
-    public function marketBuyMessageError($idUser, $message, $error, $name = '')
+    public function marketBuyMessageError($message, $error, $name = '')
     {
+        $user = auth()->user(); // Récupérer l'utilisateur connecté
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir vos decks.');
+        }
+
+        $idUser = $user->id;
+
         if (request('name')) {
             return $this->marketBuyFiltered($idUser, request('name'));
         }
@@ -175,8 +192,16 @@ class CardClientController extends Controller
     }
 
     // Acheter une carte sur le marché
-    public function buyCard($idUser)
+    public function buyCard()
     {
+        $user = auth()->user(); // Récupérer l'utilisateur connecté
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir vos decks.');
+        }
+
+        $idUser = $user->id;
+
         // récupérer data du formulaire
         $idCard = request('card_id');
 
@@ -218,7 +243,7 @@ class CardClientController extends Controller
         // débiter le user
         User::find($idUser)->decrement('money', $card->price);
 
-        return $this->marketBuyMessageError($idUser, 'Carte achetée avec succès !', '', $name);
+        return $this->marketBuyMessageError('Carte achetée avec succès !', '', $name);
     }
 
 }

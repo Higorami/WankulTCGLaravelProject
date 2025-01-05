@@ -69,11 +69,11 @@ Route::get('/raretes', [RareteController::class, 'getAllRarete']);
 Route::get('/artistes', [ArtisteController::class, 'getAllArtiste']);
 
 // Routes pour l'ouverture de boosters
-Route::get('/booster/list/{idClient}', [CardClientController::class, 'getBoosterList'])->name('booster.list');
-Route::get('/booster/open/{idClient}/{idExtension}', [CardClientController::class, 'openBooster'])->name('booster.open');
+Route::middleware(['auth'])->get('/booster/list/', [CardClientController::class, 'getBoosterList'])->name('booster.list');
+Route::middleware(['auth'])->get('/booster/open/{idExtension}', [CardClientController::class, 'openBooster'])->name('booster.open');
 
 // Routes pour les achats de cartes
-Route::get('/client/{idClient}/market', [CardClientController::class, 'marketBuy'])->name('market');
-Route::post('/client/{idClient}/market', [CardClientController::class, 'buyCard'])->name('market.buy');
+Route::middleware(['auth'])->get('/client/market', [CardClientController::class, 'marketBuy'])->name('market');
+Route::middleware(['auth'])->post('/client/market', [CardClientController::class, 'buyCard'])->name('market.buy');
 
 require __DIR__.'/auth.php';

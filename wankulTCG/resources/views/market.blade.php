@@ -19,7 +19,7 @@
             <h4 style="color: red">{{ $error }}</h4>
         @endif
         <div class="filtre">
-            <form action="{{ route('market', ['idClient' => $user->id]) }}" method="get">
+            <form action="{{ route('market') }}" method="get">
                 @csrf
 
                 <label for="name">Nom</label>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="info-carte">
                         <h4>{{ $card->price }} €</h4>
-                        <form action="{{ route('market.buy', ['idClient' => $user->id]) }}" method="post">
+                        <form action="{{ route('market.buy') }}" method="post">
                             @csrf
 
                             <input type="hidden" name="card_id" value="{{ $card->id_Card }}">
