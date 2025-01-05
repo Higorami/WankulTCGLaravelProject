@@ -22,6 +22,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('client/' . Auth::id()) . '/market' }}">Market</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('user/cards') }}">Page perso</a>
+                    </li>
                 @endauth
             </ul>
 

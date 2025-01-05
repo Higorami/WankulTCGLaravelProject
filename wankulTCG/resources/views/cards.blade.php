@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Cartes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <style>
         .decks-container {
             width: 100%;
@@ -45,12 +46,12 @@
             border-color: #ff9500;
             box-shadow: 0 0 10px rgba(255, 149, 0, 0.5);
         }
-        body {
+        .page_content {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
             display: flex;
+            background-color: #f4f4f9;
             flex-direction: column;
             align-items: center;
         }
@@ -116,38 +117,42 @@
     </style>
 </head>
 <body>
-<div class="decks-container">
-    <h2 class="section-title">Mes Decks</h2>
-    <div class="decks-list">
-        @foreach ($decks as $deck)
-            <div class="deck-item">
-                {{ $deck->name_deck }}
+<div class="bootstrap-wrapper">
+    @include('nav_main')
+</div>
+<div class="page_content">
+    <div class="decks-container">
+        <h2 class="section-title">Mes Decks</h2>
+        <div class="decks-list">
+            @foreach ($decks as $deck)
+                <div class="deck-item">
+                    {{ $deck->name_deck }}
+                </div>
+            @endforeach
+
+            @for ($i = count($decks); $i < 5; $i++)
+                <div class="deck-item">
+                    Deck vide
+                </div>
+            @endfor
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>Mes Cartes</h1>
+    </div>
+
+    <div class="cards-container">
+        @foreach($cards as $card)
+            <div class="card-item">
+                <div class="card-frame"></div> <!-- Cadre décoratif -->
+                <img src="{{ asset('storage/cards/' . $card->imageName) }}" alt="{{ $card->name_card }}" class="card-image">
+                <div class="card-info">
+                    ({{ $card->pivot->quantity }}/3) {{ $card->name_card }}
+                </div>
             </div>
         @endforeach
-
-        @for ($i = count($decks); $i < 5; $i++)
-            <div class="deck-item">
-                Deck vide
-            </div>
-        @endfor
     </div>
-</div>
-
-
-<div class="header">
-    <h1>Mes Cartes</h1>
-</div>
-
-<div class="cards-container">
-    @foreach($cards as $card)
-        <div class="card-item">
-            <div class="card-frame"></div> <!-- Cadre décoratif -->
-            <img src="{{ asset('storage/cards/' . $card->imageName) }}" alt="{{ $card->name_card }}" class="card-image">
-            <div class="card-info">
-                ({{ $card->pivot->quantity }}/3) {{ $card->name_card }}
-            </div>
-        </div>
-    @endforeach
 </div>
 </body>
 </html>
